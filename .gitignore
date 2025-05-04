@@ -1,0 +1,38 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDEs and Editors
+.idea/
+*.suo
+*.ntvsolution*
+*.njsproj
+*.sln
+*.swp
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+
+# OS Specific Files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Other temp files
+*~
+\#*
+
+# Docker
+docker-compose.override.yml
+.dockerenv
+
+# Other
+*.env
+
