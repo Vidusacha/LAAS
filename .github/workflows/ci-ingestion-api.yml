@@ -38,7 +38,7 @@ jobs:
           pip install flake8 pytest # Убедимся, что flake8 и pytest установлены для следующих шагов
 
       - name: Lint with Flake8
-        working-directory:./services/ingestion_api
+        working-directory: ./services/ingestion_api
         run: |
           # Запустить flake8 (можно настроить правила в.flake8 файле)
           # Проверяем на основные ошибки, которые могут остановить сборку
@@ -47,7 +47,7 @@ jobs:
           flake8./app --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
       - name: Run tests with Pytest
-        working-directory:./services/ingestion_api
+        working-directory: ./services/ingestion_api
         run: python -m pytest./tests # Используем python -m pytest для надежности
 
       - name: Set up Docker Buildx
@@ -68,8 +68,8 @@ jobs:
         id: build-image
         uses: docker/build-push-action@v5
         with:
-          context:./services/ingestion_api # Путь к Dockerfile и коду
-          file:./services/ingestion_api/Dockerfile
+          context: ./services/ingestion_api # Путь к Dockerfile и коду
+          file: ./services/ingestion_api/Dockerfile
           # Пушить образ только если это push в ветку develop
           push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
           tags: |
