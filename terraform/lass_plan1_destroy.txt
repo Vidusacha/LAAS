@@ -1,0 +1,228 @@
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # aws_internet_gateway.gw will be destroyed
+  - resource "aws_internet_gateway" "gw" {
+      - arn      = "arn:aws:ec2:eu-north-1:870964588006:internet-gateway/igw-0f8b9d4f99a47af8f" -> null
+      - id       = "igw-0f8b9d4f99a47af8f" -> null
+      - owner_id = "870964588006" -> null
+      - tags     = {
+          - "Name" = "project-igw"
+        } -> null
+      - tags_all = {
+          - "Name" = "project-igw"
+        } -> null
+      - vpc_id   = "vpc-05dd9b32c3a699c0c" -> null
+    }
+
+  # aws_route_table.private will be destroyed
+  - resource "aws_route_table" "private" {
+      - arn              = "arn:aws:ec2:eu-north-1:870964588006:route-table/rtb-01467923f83c7e76a" -> null
+      - id               = "rtb-01467923f83c7e76a" -> null
+      - owner_id         = "870964588006" -> null
+      - propagating_vgws = [] -> null
+      - route            = [] -> null
+      - tags             = {
+          - "Name" = "private-route-table"
+        } -> null
+      - tags_all         = {
+          - "Name" = "private-route-table"
+        } -> null
+      - vpc_id           = "vpc-05dd9b32c3a699c0c" -> null
+    }
+
+  # aws_route_table.public will be destroyed
+  - resource "aws_route_table" "public" {
+      - arn              = "arn:aws:ec2:eu-north-1:870964588006:route-table/rtb-00c257cc5d34d2d91" -> null
+      - id               = "rtb-00c257cc5d34d2d91" -> null
+      - owner_id         = "870964588006" -> null
+      - propagating_vgws = [] -> null
+      - route            = [
+          - {
+              - cidr_block                 = "0.0.0.0/0"
+              - gateway_id                 = "igw-0f8b9d4f99a47af8f"
+                # (12 unchanged attributes hidden)
+            },
+        ] -> null
+      - tags             = {
+          - "Name" = "public-route-table"
+        } -> null
+      - tags_all         = {
+          - "Name" = "public-route-table"
+        } -> null
+      - vpc_id           = "vpc-05dd9b32c3a699c0c" -> null
+    }
+
+  # aws_route_table_association.private[0] will be destroyed
+  - resource "aws_route_table_association" "private" {
+      - id             = "rtbassoc-0f13ca775be3804ff" -> null
+      - route_table_id = "rtb-01467923f83c7e76a" -> null
+      - subnet_id      = "subnet-0058249c0e23e3fcc" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_route_table_association.private[1] will be destroyed
+  - resource "aws_route_table_association" "private" {
+      - id             = "rtbassoc-0fd1cb9d0522ae13d" -> null
+      - route_table_id = "rtb-01467923f83c7e76a" -> null
+      - subnet_id      = "subnet-06d9195577e47fa03" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_route_table_association.public[0] will be destroyed
+  - resource "aws_route_table_association" "public" {
+      - id             = "rtbassoc-0e7632ebb6400f2f9" -> null
+      - route_table_id = "rtb-00c257cc5d34d2d91" -> null
+      - subnet_id      = "subnet-0bea387c4be092ca4" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_route_table_association.public[1] will be destroyed
+  - resource "aws_route_table_association" "public" {
+      - id             = "rtbassoc-0607ee7d7a8b0319a" -> null
+      - route_table_id = "rtb-00c257cc5d34d2d91" -> null
+      - subnet_id      = "subnet-035137558c83419ad" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_subnet.private[0] will be destroyed
+  - resource "aws_subnet" "private" {
+      - arn                                            = "arn:aws:ec2:eu-north-1:870964588006:subnet/subnet-0058249c0e23e3fcc" -> null
+      - assign_ipv6_address_on_creation                = false -> null
+      - availability_zone                              = "eu-north-1a" -> null
+      - availability_zone_id                           = "eun1-az1" -> null
+      - cidr_block                                     = "10.0.101.0/24" -> null
+      - enable_dns64                                   = false -> null
+      - enable_lni_at_device_index                     = 0 -> null
+      - enable_resource_name_dns_a_record_on_launch    = false -> null
+      - enable_resource_name_dns_aaaa_record_on_launch = false -> null
+      - id                                             = "subnet-0058249c0e23e3fcc" -> null
+      - ipv6_native                                    = false -> null
+      - map_customer_owned_ip_on_launch                = false -> null
+      - map_public_ip_on_launch                        = false -> null
+      - owner_id                                       = "870964588006" -> null
+      - private_dns_hostname_type_on_launch            = "ip-name" -> null
+      - tags                                           = {
+          - "Name" = "private-subnet-1"
+        } -> null
+      - tags_all                                       = {
+          - "Name" = "private-subnet-1"
+        } -> null
+      - vpc_id                                         = "vpc-05dd9b32c3a699c0c" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # aws_subnet.private[1] will be destroyed
+  - resource "aws_subnet" "private" {
+      - arn                                            = "arn:aws:ec2:eu-north-1:870964588006:subnet/subnet-06d9195577e47fa03" -> null
+      - assign_ipv6_address_on_creation                = false -> null
+      - availability_zone                              = "eu-north-1b" -> null
+      - availability_zone_id                           = "eun1-az2" -> null
+      - cidr_block                                     = "10.0.102.0/24" -> null
+      - enable_dns64                                   = false -> null
+      - enable_lni_at_device_index                     = 0 -> null
+      - enable_resource_name_dns_a_record_on_launch    = false -> null
+      - enable_resource_name_dns_aaaa_record_on_launch = false -> null
+      - id                                             = "subnet-06d9195577e47fa03" -> null
+      - ipv6_native                                    = false -> null
+      - map_customer_owned_ip_on_launch                = false -> null
+      - map_public_ip_on_launch                        = false -> null
+      - owner_id                                       = "870964588006" -> null
+      - private_dns_hostname_type_on_launch            = "ip-name" -> null
+      - tags                                           = {
+          - "Name" = "private-subnet-2"
+        } -> null
+      - tags_all                                       = {
+          - "Name" = "private-subnet-2"
+        } -> null
+      - vpc_id                                         = "vpc-05dd9b32c3a699c0c" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # aws_subnet.public[0] will be destroyed
+  - resource "aws_subnet" "public" {
+      - arn                                            = "arn:aws:ec2:eu-north-1:870964588006:subnet/subnet-0bea387c4be092ca4" -> null
+      - assign_ipv6_address_on_creation                = false -> null
+      - availability_zone                              = "eu-north-1a" -> null
+      - availability_zone_id                           = "eun1-az1" -> null
+      - cidr_block                                     = "10.0.1.0/24" -> null
+      - enable_dns64                                   = false -> null
+      - enable_lni_at_device_index                     = 0 -> null
+      - enable_resource_name_dns_a_record_on_launch    = false -> null
+      - enable_resource_name_dns_aaaa_record_on_launch = false -> null
+      - id                                             = "subnet-0bea387c4be092ca4" -> null
+      - ipv6_native                                    = false -> null
+      - map_customer_owned_ip_on_launch                = false -> null
+      - map_public_ip_on_launch                        = true -> null
+      - owner_id                                       = "870964588006" -> null
+      - private_dns_hostname_type_on_launch            = "ip-name" -> null
+      - tags                                           = {
+          - "Name" = "public-subnet-1"
+        } -> null
+      - tags_all                                       = {
+          - "Name" = "public-subnet-1"
+        } -> null
+      - vpc_id                                         = "vpc-05dd9b32c3a699c0c" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # aws_subnet.public[1] will be destroyed
+  - resource "aws_subnet" "public" {
+      - arn                                            = "arn:aws:ec2:eu-north-1:870964588006:subnet/subnet-035137558c83419ad" -> null
+      - assign_ipv6_address_on_creation                = false -> null
+      - availability_zone                              = "eu-north-1b" -> null
+      - availability_zone_id                           = "eun1-az2" -> null
+      - cidr_block                                     = "10.0.2.0/24" -> null
+      - enable_dns64                                   = false -> null
+      - enable_lni_at_device_index                     = 0 -> null
+      - enable_resource_name_dns_a_record_on_launch    = false -> null
+      - enable_resource_name_dns_aaaa_record_on_launch = false -> null
+      - id                                             = "subnet-035137558c83419ad" -> null
+      - ipv6_native                                    = false -> null
+      - map_customer_owned_ip_on_launch                = false -> null
+      - map_public_ip_on_launch                        = true -> null
+      - owner_id                                       = "870964588006" -> null
+      - private_dns_hostname_type_on_launch            = "ip-name" -> null
+      - tags                                           = {
+          - "Name" = "public-subnet-2"
+        } -> null
+      - tags_all                                       = {
+          - "Name" = "public-subnet-2"
+        } -> null
+      - vpc_id                                         = "vpc-05dd9b32c3a699c0c" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # aws_vpc.main will be destroyed
+  - resource "aws_vpc" "main" {
+      - arn                                  = "arn:aws:ec2:eu-north-1:870964588006:vpc/vpc-05dd9b32c3a699c0c" -> null
+      - assign_generated_ipv6_cidr_block     = false -> null
+      - cidr_block                           = "10.0.0.0/16" -> null
+      - default_network_acl_id               = "acl-063a46cbae61892c8" -> null
+      - default_route_table_id               = "rtb-0a3e096604b20f5ad" -> null
+      - default_security_group_id            = "sg-0b0d207b98e091084" -> null
+      - dhcp_options_id                      = "dopt-0c5ea2350d0f05f75" -> null
+      - enable_classiclink                   = false -> null
+      - enable_classiclink_dns_support       = false -> null
+      - enable_dns_hostnames                 = true -> null
+      - enable_dns_support                   = true -> null
+      - enable_network_address_usage_metrics = false -> null
+      - id                                   = "vpc-05dd9b32c3a699c0c" -> null
+      - instance_tenancy                     = "default" -> null
+      - ipv6_netmask_length                  = 0 -> null
+      - main_route_table_id                  = "rtb-0a3e096604b20f5ad" -> null
+      - owner_id                             = "870964588006" -> null
+      - tags                                 = {
+          - "Name" = "project-vpc"
+        } -> null
+      - tags_all                             = {
+          - "Name" = "project-vpc"
+        } -> null
+        # (4 unchanged attributes hidden)
+    }
+
+Plan: 0 to add, 0 to change, 12 to destroy.

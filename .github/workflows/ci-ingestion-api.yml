@@ -1,0 +1,80 @@
+name: CI for Log Ingestion API (LAAS project)
+
+on:
+  push:
+    branches: [ develop ]
+    paths:
+      - 'services/ingestion_api/**' # Запускать только при изменениях в директории сервиса
+      - '.github/workflows/ci-ingestion-api.yml' # Или при изменении самого workflow
+  pull_request:
+    branches: [ develop, main ]
+    paths:
+      - 'services/ingestion_api/**'
+      - '.github/workflows/ci-ingestion-api.yml'
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest # Указать тип runner'а (виртуальной машины)
+    
+    # Определяем переменные окружения для использования в шагах
+    env:
+      AWS_REGION: eu-north-1 # Замените на ваш регион или используйте secrets.AWS_REGION
+      ECR_REPOSITORY_NAME: log-ingestion-api # Имя вашего ECR репозитория
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9' # Указать версию, соответствующую Dockerfile
+
+      - name: Install dependencies
+        working-directory:./services/ingestion_api # Указать рабочую директорию
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install flake8 pytest # Убедимся, что flake8 и pytest установлены для следующих шагов
+
+      - name: Lint with Flake8
+        working-directory:./services/ingestion_api
+        run: |
+          # Запустить flake8 (можно настроить правила в.flake8 файле)
+          # Проверяем на основные ошибки, которые могут остановить сборку
+          flake8./app --count --select=E9,F63,F7,F82 --show-source --statistics
+          # Проверяем на стиль, но не прерываем сборку при ошибках стиля (exit-zero)
+          flake8./app --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+      - name: Run tests with Pytest
+        working-directory:./services/ingestion_api
+        run: python -m pytest./tests # Используем python -m pytest для надежности
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Log in to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push Docker image to ECR
+        id: build-image
+        uses: docker/build-push-action@v5
+        with:
+          context:./services/ingestion_api # Путь к Dockerfile и коду
+          file:./services/ingestion_api/Dockerfile
+          # Пушить образ только если это push в ветку develop
+          push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
+          tags: |
+            ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NAME }}:${{ github.sha }}
+            ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_NAME }}:latest
+          # Использовать кеш GitHub Actions для ускорения сборки
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
